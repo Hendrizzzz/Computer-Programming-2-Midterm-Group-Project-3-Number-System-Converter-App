@@ -9,9 +9,9 @@ public interface NumberConverter {
     String octalToDecimal(String octal);
     String octalToHexadecimal(String octal);
 
-    String decimalToBinary(String decimal);
-    String decimalToOctal(String decimal);
-    String decimalToHexadecimal(String decimal);
+    String decimalToBinary(double decimal);
+    String decimalToOctal(double decimal);
+    String decimalToHexadecimal(double decimal);
 
     String hexadecimalToBinary(String hexadecimal);
     String hexadecimalToOctal(String hexadecimal);
