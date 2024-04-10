@@ -1,65 +1,74 @@
 package prog2.samcis;
 
 public class EquivalentNumbers implements NumberConverter{
-    String decimalString;
-    String binary;
-    String octal;
+    double decimal;
+    String binaryString;
+    String octalString;
+    String hexadecimalString;
 
-    public String getDecimalString() {
-        return decimalString;
-    }
 
-    /**
-     * One will do this
-     * @author....
-     *
-     * @param decimalString
-     */
-    public void setDecimalString(String decimalString) {
-        this.decimalString = decimalString;
-    }
 
-    public String getBinary() {
-        return binary;
+    public String getBinaryString() {
+        return binaryString;
     }
 
     /**
      * One will do thiss
      *
      * @author...
-     * @param binary
+     * @param binaryString
      */
-    public void setBinary(String binary) {
-        this.binary = binary;
+    public void setBinaryString(String binaryString) {
+        this.binaryString = binaryString;
     }
 
-    public String getOctal() {
-        return octal;
+
+
+    public String getOctalString() {
+        return octalString;
     }
 
     /**
      * One will do this
      * @author...
-     * @param octal
+     * @param octalString
      */
-    public void setOctal(String octal) {
-        this.octal = octal;
+    public void setOctalString(String octalString) {
+        this.octalString = octalString;
     }
 
-    public String getHexadecimal() {
-        return hexadecimal;
+
+    public double getDecimal() {
+        return decimal;
+    }
+
+    /**
+     * One will do this
+     * @author....
+     *
+     * @param decimal
+     */
+    public void setDecimal(double decimal) {
+        this.decimal = decimal;
+    }
+
+
+
+    public String getHexadecimalString() {
+        return hexadecimalString;
     }
 
     /**
      * One will do this
      * @author
-     * @param hexadecimal
+     * @param hexadecimalString
      */
-    public void setHexadecimal(String hexadecimal) {
-        this.hexadecimal = hexadecimal;
+    public void setHexadecimalString(String hexadecimalString) {
+        this.hexadecimalString = hexadecimalString;
     }
 
-    String hexadecimal;
+
+
 
     @Override
     public String binaryToDecimal(String binary) {
@@ -92,17 +101,17 @@ public class EquivalentNumbers implements NumberConverter{
     }
 
     @Override
-    public String decimalToBinary(String decimal) {
+    public String decimalToBinary(double decimal) {
         return null;
     }
 
     @Override
-    public String decimalToOctal(String decimal) {
+    public String decimalToOctal(double decimal) {
         return null;
     }
 
     @Override
-    public String decimalToHexadecimal(String decimal) {
+    public String decimalToHexadecimal(double decimal) {
         return null;
     }
 
