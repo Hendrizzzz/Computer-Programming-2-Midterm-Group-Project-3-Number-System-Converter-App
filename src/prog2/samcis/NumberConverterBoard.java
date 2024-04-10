@@ -18,7 +18,7 @@ public class NumberConverterBoard {
 
 
   // nasa loob to ng NumberConverterBoard, lagay mo nalang sa pinakahuli
-      /**
+          /**
      * ActionListener for handling button clicks in the Number Converter application.
      *
      * @author Bag-eo, Jim Hendrix
@@ -78,10 +78,10 @@ public class NumberConverterBoard {
          * @param number The EquivalentNumbers object to perform the conversion.
          */
         private void convertDecimal(EquivalentNumbers number) {
-            number.setDecimalNumber(Float.parseFloat(decimalTF.getText()));
+            number.setDecimal(Double.parseDouble(decimalTF.getText()));
             binaryTF.setText(number.getBinaryString());
             octalTF.setText(number.getOctalString());
-            hexadecimalTF.setText(NumberConverterBoard.this.number.getHexadecimalString());
+            hexadecimalTF.setText(number.getHexadecimalString());
         }
 
 
@@ -92,8 +92,8 @@ public class NumberConverterBoard {
          * @throws Exception if the binary number is invalid.
          */
         private void convertBinary(EquivalentNumbers number) throws Exception {
-            number.setBinaryNumber(binaryTF.getText());
-            decimalTF.setText(String.valueOf(number.getDecimalNumber()));
+            number.setBinaryString(binaryTF.getText());
+            decimalTF.setText(String.valueOf(number.getDecimal()));
             octalTF.setText(number.getOctalString());
             hexadecimalTF.setText(number.getHexadecimalString());
         }
@@ -105,9 +105,9 @@ public class NumberConverterBoard {
          * @throws Exception if the octal number is invalid.
          */
         private void convertOctal(EquivalentNumbers number) throws Exception {
-            number.setOctalNumber(octalTF.getText());
+            number.setOctalString(octalTF.getText());
             binaryTF.setText(number.getBinaryString());
-            decimalTF.setText(String.valueOf(number.getDecimalNumber()));
+            decimalTF.setText(String.valueOf(number.getDecimal()));
             hexadecimalTF.setText(number.getHexadecimalString());
         }
 
@@ -121,9 +121,8 @@ public class NumberConverterBoard {
             number.setHexadecimalString(hexadecimalTF.getText());
             binaryTF.setText(number.getBinaryString());
             octalTF.setText(number.getOctalString());
-            decimalTF.setText(String.valueOf(number.getDecimalNumber()));
+            decimalTF.setText(String.valueOf(number.getDecimal()));
         }
 
     } // end of the inner class -> ButtonsHandler
-  
 } // end of the outer class -> NumberConverterBoard
