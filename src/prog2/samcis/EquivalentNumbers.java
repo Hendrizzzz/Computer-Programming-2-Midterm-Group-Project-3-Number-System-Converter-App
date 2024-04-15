@@ -13,16 +13,18 @@ public class EquivalentNumbers implements NumberConverter{
     }
 
     /**
-     * One will do thiss
+     * sets the binaryString to the given parameter.
+     * binary will be used for the conversion to decimal.
+     * decimal will be used for the conversion to octal and hexadecimal.
      *
-     * @author...
-     * @param binaryString
+     * @author Oliver Yu
+     * @param binaryString - given input
      */
     public void setBinaryString(String binaryString) throws Exception {
         this.binaryString = binaryString;
         decimal = binaryToDecimal(binaryString);
-        //octalString = Integer.toOctalString(decimal);
-        //hexadecimalString = Integer.toHexString(decimal);
+        octalString = decimalToOctal(decimal);
+        hexadecimalString = decimalToHexadecimal(decimal);
     }
 
 
