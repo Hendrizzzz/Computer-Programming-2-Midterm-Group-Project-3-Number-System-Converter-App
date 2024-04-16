@@ -111,15 +111,12 @@ public class EquivalentNumbers implements NumberConverter{
             result += (int) (Integer.parseInt("" + wholePart.charAt(i)) * Math.pow(2, (int) (wholePart.length() - 1 - i)));
         }
 
-        if (decimalPart != null) {
-            for (int i = 0; i < decimalPart.length(); i++) {
+        if (decimalPart != null)
+            for (int i = 0; i < decimalPart.length(); i++)
                 result += (Integer.parseInt("" + decimalPart.charAt(i)) * Math.pow(2, -i - 1));
-            }
-        }
 
-        if (isNegative) {
+        if (isNegative)
             return result * -1;
-        }
 
         return result;
     }
