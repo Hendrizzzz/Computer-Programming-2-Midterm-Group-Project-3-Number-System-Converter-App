@@ -91,14 +91,17 @@ public class EquivalentNumbers implements NumberConverter{
         String wholePart = "";
         String decimalPart = "";
 
+        // Removes the negative sign if it is existent in the string.
         if (binary.charAt(0) == '-') {
             binary = binary.substring(1);
             isNegative = true;
         }
 
+        // checks the validity of the string.
         if (!isValidBinaryString(binary))
             throw new Exception("Invalid Binary Number");
 
+        // Splits the whole part and the fractional part of the string.
         if (binary.indexOf('.') > -1) {
             String[] split = binary.split("\\.");
             wholePart = split[0];
@@ -107,14 +110,16 @@ public class EquivalentNumbers implements NumberConverter{
             wholePart = binary;
         }
 
-        for (int i = 0; i < wholePart.length(); i++) {
+        // Converts the whole part to decimal.
+        for (int i = 0; i < wholePart.length(); i++)
             result += (int) (Integer.parseInt("" + wholePart.charAt(i)) * Math.pow(2, (int) (wholePart.length() - 1 - i)));
-        }
 
+        // Converts the fractional part (continues from whole part conversion)
         if (decimalPart != null)
             for (int i = 0; i < decimalPart.length(); i++)
                 result += (Integer.parseInt("" + decimalPart.charAt(i)) * Math.pow(2, -i - 1));
 
+        // returns a negative result if the number was a negative number.
         if (isNegative)
             return result * -1;
 
@@ -160,6 +165,7 @@ public class EquivalentNumbers implements NumberConverter{
     private boolean isValidBinaryString(String binaryString) {
         boolean result = true;
 
+        // Removes only 1 decimal point.
         if (binaryString.indexOf('.') > -1)
             binaryString = binaryString.replaceFirst("\\.", "");
 
