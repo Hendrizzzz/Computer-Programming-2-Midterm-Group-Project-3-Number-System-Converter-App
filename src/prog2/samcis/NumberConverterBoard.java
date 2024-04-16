@@ -100,7 +100,7 @@ public class NumberConverterBoard extends JFrame {
     }
 
     private void openNumberConverterBoard() {
-        setTitle("My Nigga Converter");
+        setTitle("Number System Converter");
         setSize(1200, 600);
         setResizable(false);
 

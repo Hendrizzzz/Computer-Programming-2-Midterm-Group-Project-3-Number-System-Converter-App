@@ -80,18 +80,48 @@ public class EquivalentNumbers implements NumberConverter{
      * If the binary string is valid, the binary string will then be extracted character by character to be used in the conversion process.
      *
      * @author Oliver Yu
-     * @param binary number in String
+     *
+     * @param binary String representation of the binary number.
      * @return decimal in Integer type.
      */
     @Override
-    public int binaryToDecimal(String binary) throws Exception {
-        int result = 0;
+    public double binaryToDecimal(String binary) throws Exception {
+        double result = 0;
+        boolean isNegative = false;
+        String wholePart = "";
+        String decimalPart = "";
+
+        if (binary.charAt(0) == '-') {
+            binary = binary.substring(1);
+            isNegative = true;
+        }
+
         if (!isValidBinaryString(binary))
             throw new Exception("Invalid Binary Number");
-        for (int i = 0; i < binary.length(); i++) {
-            result += (int) (Integer.parseInt("" + binary.charAt(i)) * Math.pow(2, (int) (binary.length() - 1 - i)));
+
+        if (binary.indexOf('.') > -1) {
+            String[] split = binary.split("\\.");
+            wholePart = split[0];
+            decimalPart = split[1];
+        } else {
+            wholePart = binary;
         }
-        return 0;
+
+        for (int i = 0; i < wholePart.length(); i++) {
+            result += (int) (Integer.parseInt("" + wholePart.charAt(i)) * Math.pow(2, (int) (wholePart.length() - 1 - i)));
+        }
+
+        if (decimalPart != null) {
+            for (int i = 0; i < decimalPart.length(); i++) {
+                result += (Integer.parseInt("" + decimalPart.charAt(i)) * Math.pow(2, -i - 1));
+            }
+        }
+
+        if (isNegative) {
+            return result * -1;
+        }
+
+        return result;
     }
 
     @Override
@@ -121,15 +151,21 @@ public class EquivalentNumbers implements NumberConverter{
 
     /**
      * This method is to check the validity of the binary string.
-     * The method uses a for-loop to check each character of the binary string.
-     * If one of the character of the binary string is other than '1' or '2', the method will return false.
+     * The method first checks if the binary has a decimal point. If the decimal point is present, it will be removed.
+     * Then, each character of the binary string will be checked.
+     * If one of the character of the binary string is other than '0' or '1', the method will return false.
      *
      * @author Oliver Yu
-     * @param binaryString to be verified.
-     * @return true if the binaryString is a valid binary number. Otherwise, false.
+     *
+     * @param binaryString String representation of the binary number to be verified.
+     * @return True if the binaryString is a valid binary number. Otherwise, returns false.
      */
     private boolean isValidBinaryString(String binaryString) {
         boolean result = true;
+
+        if (binaryString.indexOf('.') > -1)
+            binaryString = binaryString.replaceFirst("\\.", "");
+
         for (int index = 0; index < binaryString.length(); index++) {
             if (binaryString.charAt(index) != '0' && binaryString.charAt(index) != '1') {
                 result = false;

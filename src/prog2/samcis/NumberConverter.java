@@ -1,7 +1,7 @@
 package prog2.samcis;
 
 public interface NumberConverter {
-    int binaryToDecimal(String binary) throws Exception;
+    double binaryToDecimal(String binary) throws Exception;
     int octalToDecimal(String octal);
     int hexadecimalToDecimal(String hexadecimal);
 
