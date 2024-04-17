@@ -25,6 +25,8 @@ public class NumberConverterBoard extends JFrame {
 
     private JLabel problemDisplayer;
 
+    EquivalentNumbers number;
+
 
     public static void main(String[] args) {
         new NumberConverterBoard();
@@ -320,13 +322,8 @@ public class NumberConverterBoard extends JFrame {
 
             if (buttonOption == clearButton) {
                 clearInputs();
-                decimalTF.setEditable(false);
-                binaryTF.setEditable(false);
-                octalTF.setEditable(false);
-                hexadecimalTF.setEditable(false);
-                numberSystems.setSelectedIndex(0);
             } else if (buttonOption == convertButton) {
-                new EquivalentNumbers();
+                number = new EquivalentNumbers();
                 try {
                     switch (selectedNumber) {
                         case "Decimal" -> convertDecimal();
@@ -346,37 +343,65 @@ public class NumberConverterBoard extends JFrame {
 
 
     /**
-     *
-     * @author
+     * Converts a decimal number to binary, octal, and hexadecimal representations.
+     * @author Bag-eo, Jim Hendrix
      */
     private void convertDecimal() {
-        //other codes here
+        number.setDecimal(Float.parseFloat(decimalTF.getText()));
+        binaryTF.setText(number.getBinaryString());
+        octalTF.setText(number.getOctalString());
+        hexadecimalTF.setText(number.getHexadecimalString());
     }
 
     /**
+     * Converts a binary number to decimal, octal, and hexadecimal representations.
      *
-     * @author
+     * @throws Exception if an error occurs during the conversion process.
+     *
+     * @author Bag-eo, Jim Hendrix
      */
     private void convertBinary() throws Exception {
-        //other codes here
+        number.setBinaryString(binaryTF.getText());
+        decimalTF.setText(String.valueOf(number.getDecimal()));
+        octalTF.setText(number.getOctalString());
+        hexadecimalTF.setText(number.getHexadecimalString());
     }
 
+
     /**
+     * Converts an octal number to decimal, binary, and hexadecimal representations.
      *
-     * @author
+     * @throws Exception if an error occurs during the conversion process.
+     *
+     * @author Bag-eo, Jim Hendrix
      */
     private void convertOctal() throws Exception {
-        //other codes here
+        number.setOctalString(octalTF.getText());
+        binaryTF.setText(number.getBinaryString());
+        decimalTF.setText(String.valueOf(number.getDecimal()));
+        hexadecimalTF.setText(number.getHexadecimalString());
     }
+
+
 
     /**
+     * Converts a hexadecimal number to decimal, binary, and octal representations.
      *
-     * @author
+     * @throws Exception if an error occurs during the conversion process.
+     *
+     * @author Bag-eo, Jim Hendrix
      */
     private void convertHexadecimal() throws Exception {
-        //other codes here
+        number.setHexadecimalString(hexadecimalTF.getText());
+        binaryTF.setText(number.getBinaryString());
+        octalTF.setText(number.getOctalString());
+        decimalTF.setText(String.valueOf(number.getDecimal()));
     }
 
+
+    /**
+     * Clears all input fields and error messages.
+     */
     private void clearInputs() {
         decimalTF.setText("");
         binaryTF.setText("");
