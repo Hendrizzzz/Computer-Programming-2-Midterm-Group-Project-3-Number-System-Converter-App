@@ -46,10 +46,12 @@ public class EquivalentNumbers implements NumberConverter{
     }
 
     /**
-     * Sets the decimal number and updates binary, octal, and hexadecimal representations accordingly.
-     * @author Martin, Michael John
+     * This method sets the decimal number provided as input and recalculates its corresponding binary, octal, and hexadecimal representations.
+     * It then updates the internal state of the object by storing these representations in their respective fields: {@code binaryString}, {@code octalString}, and {@code hexadecimalString}.
+     *If the provided decimal number is the same as the current value stored in the object, the method will still recalculate and update the representations, ensuring data consistency.
      *
-     * @param decimal - Decimal number to set.
+     * @author Martin, Michael John
+     *  @param decimal - Decimal number to set.
      */
     public void setDecimal(double decimal) {
         this.decimal = decimal;
@@ -137,7 +139,16 @@ public class EquivalentNumbers implements NumberConverter{
     public int hexadecimalToDecimal(String hexadecimal) {
         return 0;
     }
-
+    /**
+     * Converts a decimal number to its binary representation.
+     * This method takes a decimal number as input and converts it to its binary representation.
+     * It first separates the integer and fractional parts of the decimal number.
+     * The integer part is converted to binary using repeated division by 2, while the fractional part is converted using repeated multiplication by 2.
+     * The resulting binary representation is returned as a string.
+     *
+     * @author Martin, Michael John
+     * @param decimal The decimal number to convert.
+     */
     @Override
     public String decimalToBinary(double decimal) {
         StringBuilder binary = new StringBuilder();
@@ -166,8 +177,18 @@ public class EquivalentNumbers implements NumberConverter{
         }
 
         return binary.toString();
-    }
 
+    }
+    /**
+     * Converts a decimal number to its octal representation.
+     * This method converts the given decimal number to its octal representation.
+     * If the octal representation is already calculated and stored in the object, it is returned directly to avoid redundant calculations.
+     * Otherwise, the method calculates the octal representation using the {@code Integer.toOctalString} method.
+     *
+     * @author Martin, Michael John
+     * @param decimal The decimal number to convert.
+     * @return The octal representation of the decimal number.
+     */
     @Override
     public String decimalToOctal(double decimal) {
         if (octalString == null) {
@@ -180,6 +201,17 @@ public class EquivalentNumbers implements NumberConverter{
             }
         }
     }
+    /**
+     * Converts a decimal number to its hexadecimal representation.
+
+     * This method converts the given decimal number to its hexadecimal representation.
+     * If the hexadecimal representation is already calculated and stored in the object, it is returned directly to avoid redundant calculations.
+     * Otherwise, the method calculates the hexadecimal representation using the {@code Integer.toHexString} method.
+     *
+     * @author Martin, Michael John
+     * @param decimal The decimal number to convert.
+     * @return The hexadecimal representation of the decimal number.
+     */
     @Override
     public String decimalToHexadecimal(double decimal) {
         if (hexadecimalString == null) {
