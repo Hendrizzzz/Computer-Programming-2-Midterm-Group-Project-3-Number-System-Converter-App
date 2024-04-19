@@ -69,7 +69,7 @@ public class EquivalentNumbers implements NumberConverter{
 
     /**
      * One will do this
-     * @author
+     * @author..
      * @param hexadecimalString
      */
     public void setHexadecimalString(String hexadecimalString) {
