@@ -144,7 +144,6 @@ public class EquivalentNumbers implements NumberConverter{
         int intPart = (int) decimal;
         double fracPart = decimal - intPart;
 
-        // Convert integer part to binary
         if (intPart == 0) {
             binary.append(0);
         } else {
@@ -159,9 +158,7 @@ public class EquivalentNumbers implements NumberConverter{
             binary.append('.');
         }
 
-        // Convert fractional part to binary
         while (fracPart > 0) {
-            // Multiply fractional part by 2
             fracPart *= 2;
             int bit = (int) fracPart;
             binary.append(bit);
