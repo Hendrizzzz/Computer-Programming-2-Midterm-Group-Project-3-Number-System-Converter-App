@@ -166,21 +166,18 @@ public double octalToDecimal(String octal) throws NumberFormatException, Excepti
         throw new Exception("Invalid Octal Number");
     }
 
-    double decimalEquivalent = integerPart;
-
-    while (fractionalPart > 0) {
-        fractionalPart *= 8; // Multiply fractional part by 8
-        int digit = (int) fractionalPart; // Get integer part of the result
-        decimalEquivalent += digit / Math.pow(8, fractionalPart);
-        fractionalPart -= digit; // Remove the integer part from the fractional part
-    }
-
-    return isNegative ? -decimalEquivalent : decimalEquivalent;
-}
-
+    /**
+     * Converts a hexadecimal string to its equivalent decimal representation.
+     * Each hexadecimal digit is converted to its decimal equivalent and then combined
+     * to produce the final decimal value.
+     *
+     * @param hexadecimal The hexadecimal string to convert to decimal.
+     * @return The decimal representation of the hexadecimal string.
+     */
+  
     @Override
     public int hexadecimalToDecimal(String hexadecimal) {
-        int decimalValue = 0;
+        double decimalValue = 0;
         // Converting hexadecimal string to uppercase to handle lowercase input
         hexadecimal = hexadecimal.toUpperCase();
 
@@ -201,7 +198,7 @@ public double octalToDecimal(String octal) throws NumberFormatException, Excepti
             decimalValue = 16 * decimalValue + digitValue;
         }
 
-        return decimalValue;
+        return (int) decimalValue;
     }
 
     @Override
@@ -263,4 +260,3 @@ public double octalToDecimal(String octal) throws NumberFormatException, Excepti
     }
 
 }
-
