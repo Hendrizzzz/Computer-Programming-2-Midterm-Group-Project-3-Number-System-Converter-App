@@ -9,4 +9,6 @@ public interface NumberConverter {
     String decimalToOctal(double decimal);
     String decimalToHexadecimal(double decimal);
 
+
+
 }
