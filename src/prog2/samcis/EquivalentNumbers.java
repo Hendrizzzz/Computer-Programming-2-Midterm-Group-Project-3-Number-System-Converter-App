@@ -140,18 +140,60 @@ public class EquivalentNumbers implements NumberConverter{
 
     @Override
     public String decimalToBinary(double decimal) {
-        return Integer.toBinaryString((int) decimal);
+        StringBuilder binary = new StringBuilder();
+        int intPart = (int) decimal;
+        double fracPart = decimal - intPart;
 
+        // Convert integer part to binary
+        if (intPart == 0) {
+            binary.append(0);
+        } else {
+            while (intPart > 0) {
+                binary.insert(0, intPart % 2);
+                intPart /= 2;
+            }
+        }
+
+        // Add decimal point
+        if (fracPart > 0) {
+            binary.append('.');
+        }
+
+        // Convert fractional part to binary
+        while (fracPart > 0) {
+            // Multiply fractional part by 2
+            fracPart *= 2;
+            int bit = (int) fracPart;
+            binary.append(bit);
+            fracPart -= bit;
+        }
+
+        return binary.toString();
     }
 
     @Override
     public String decimalToOctal(double decimal) {
-        return Integer.toOctalString((int) decimal);
+        if (octalString == null) {
+            return Integer.toOctalString((int) decimal);
+        } else {
+            if (decimal != Integer.parseInt(octalString, 8)) {
+                return Integer.toOctalString((int) decimal);
+            } else {
+                return octalString;
+            }
+        }
     }
-
     @Override
     public String decimalToHexadecimal(double decimal) {
-        return Integer.toHexString((int) decimal).toUpperCase();
+        if (hexadecimalString == null) {
+            return Integer.toHexString((int) decimal).toUpperCase();
+        } else {
+            if (decimal != Integer.parseInt(hexadecimalString, 16)) {
+                return Integer.toHexString((int) decimal).toUpperCase();
+            } else {
+                return hexadecimalString;
+            }
+        }
     }
 
     /**
