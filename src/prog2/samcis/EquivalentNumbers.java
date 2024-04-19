@@ -6,8 +6,6 @@ public class EquivalentNumbers implements NumberConverter{
     String octalString;
     String hexadecimalString;
 
-
-
     public String getBinaryString() {
         return binaryString;
     }
@@ -34,12 +32,18 @@ public class EquivalentNumbers implements NumberConverter{
     }
 
     /**
-     * One will do this
-     * @author...
-     * @param octalString
+     * Sets the octal string representation and calculates the decimal, binary, and hexadecimal equivalents.
+     *
+     * @param octalString the string representing the octal number to be set
+     * @throws NumberFormatException if the input string is not a valid octal number
+     * @throws Exception             if an error occurs during the conversion process
+     * @author Paul Pajara
      */
-    public void setOctalString(String octalString) {
+    public void setOctalString(String octalString) throws Exception {
         this.octalString = octalString;
+        decimal = Double.parseDouble(octalToDecimal(octalString));
+        binaryString = decimalToBinary(decimal);
+        hexadecimalString = decimalToHexadecimal(decimal);
     }
 
 
@@ -48,14 +52,18 @@ public class EquivalentNumbers implements NumberConverter{
     }
 
     /**
-     * One will do this
-     * @author....
+     * Sets the decimal number and updates binary, octal, and hexadecimal representations accordingly.
+     * @author Martin, Michael John
      *
-     * @param decimal
+     * @param decimal - Decimal number to set.
      */
     public void setDecimal(double decimal) {
         this.decimal = decimal;
+        binaryString = decimalToBinary(decimal);
+        octalString = decimalToOctal(decimal);
+        hexadecimalString = decimalToHexadecimal(decimal);
     }
+
 
 
 
@@ -131,9 +139,31 @@ public class EquivalentNumbers implements NumberConverter{
         return result;
     }
 
-    @Override
-    public int octalToDecimal(String octal) {
-        return 0;
+/**
+ * Converts a string representing an octal number to its decimal equivalent.
+ *
+ * @param octal the string representation of the octal number to be converted
+ * @return the decimal equivalent of the input octal number
+ * @throws NumberFormatException if the input string is not a valid octal number
+ * @throws Exception             if an error occurs during the conversion process
+ * @author Paul Pajara
+ */
+@Override
+public double octalToDecimal(String octal) throws NumberFormatException, Exception {
+
+    boolean isNegative = false;
+
+    if (octal.charAt(0) == '-') {
+        octal = octal.substring(1);
+        isNegative = true;
+    }
+
+    double octalNumber = Double.parseDouble(octal);
+    int integerPart = (int) octalNumber;
+    double fractionalPart = octalNumber - integerPart;
+
+    if (!isOctal(octal)) {
+        throw new Exception("Invalid Octal Number");
     }
 
     /**
@@ -144,7 +174,7 @@ public class EquivalentNumbers implements NumberConverter{
      * @param hexadecimal The hexadecimal string to convert to decimal.
      * @return The decimal representation of the hexadecimal string.
      */
-
+  
     @Override
     public int hexadecimalToDecimal(String hexadecimal) {
         double decimalValue = 0;
@@ -173,17 +203,18 @@ public class EquivalentNumbers implements NumberConverter{
 
     @Override
     public String decimalToBinary(double decimal) {
-        return null;
+        return Integer.toBinaryString((int) decimal);
+
     }
 
     @Override
     public String decimalToOctal(double decimal) {
-        return null;
+        return Integer.toOctalString((int) decimal);
     }
 
     @Override
     public String decimalToHexadecimal(double decimal) {
-        return null;
+        return Integer.toHexString((int) decimal).toUpperCase();
     }
 
     /**
@@ -212,4 +243,20 @@ public class EquivalentNumbers implements NumberConverter{
         }
         return result;
     }
+
+     /**
+     * Checks if a given string represents a valid octal number.
+     *
+     * @param input the string to be checked for octal validity
+     * @return {@code true} if the input string represents a valid octal number, {@code false} otherwise
+     * @author Paul Pajara
+     */
+    public static boolean isOctal(String input) {
+        // Regular expression to match octal numbers (0 to 7)
+        String octalPattern = "[0-7]+";
+
+        // Check if the input string matches the octal pattern
+        return input.matches(octalPattern);
+    }
+
 }
