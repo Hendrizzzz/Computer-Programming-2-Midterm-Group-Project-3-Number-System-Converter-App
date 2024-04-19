@@ -135,7 +135,7 @@ public class EquivalentNumbers implements NumberConverter{
     public int octalToDecimal(String octal) {
         return 0;
     }
-    
+
     /**
      * Converts a hexadecimal string to its equivalent decimal representation.
      * Each hexadecimal digit is converted to its decimal equivalent and then combined
@@ -144,10 +144,10 @@ public class EquivalentNumbers implements NumberConverter{
      * @param hexadecimal The hexadecimal string to convert to decimal.
      * @return The decimal representation of the hexadecimal string.
      */
-    
+
     @Override
     public int hexadecimalToDecimal(String hexadecimal) {
-        int decimalValue = 0;
+        double decimalValue = 0;
         // Converting hexadecimal string to uppercase to handle lowercase input
         hexadecimal = hexadecimal.toUpperCase();
 
@@ -168,7 +168,7 @@ public class EquivalentNumbers implements NumberConverter{
             decimalValue = 16 * decimalValue + digitValue;
         }
 
-        return decimalValue;
+        return (int) decimalValue;
     }
 
     @Override
@@ -213,4 +213,3 @@ public class EquivalentNumbers implements NumberConverter{
         return result;
     }
 }
-
