@@ -332,6 +332,7 @@ public class NumberConverterBoard extends JFrame {
                         case "Hexadecimal" -> convertHexadecimal();
                     }
                 } catch (Exception ex) {
+                    clearInputs();
                     problemDisplayer.setText("The input does not follow the format of the Number System");
                 }
             } else if (buttonOption == exitButton) {
@@ -346,7 +347,7 @@ public class NumberConverterBoard extends JFrame {
      * Converts a decimal number to binary, octal, and hexadecimal representations.
      * @author Bag-eo, Jim Hendrix
      */
-    private void convertDecimal() {
+    private void convertDecimal() throws NumberFormatException {
         number.setDecimal(Float.parseFloat(decimalTF.getText()));
         binaryTF.setText(number.getBinaryString());
         octalTF.setText(number.getOctalString());
