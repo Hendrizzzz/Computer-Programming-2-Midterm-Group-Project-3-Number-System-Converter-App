@@ -66,14 +66,19 @@ public class EquivalentNumbers implements NumberConverter{
     }
 
     /**
-     * One will do this
-     * @author
-     * @param hexadecimalString
+     * Sets the hexadecimal string and calculates the decimal, octal, and binary representations.
+     * The method updates the hexadecimal string field and calculates its equivalent decimal, octal, and binary representations.
+     *
+     * @author Archilles Kyle Sambot
+     * @param hexadecimalString The hexadecimal string to be set.
      */
-    public void setHexadecimalString(String hexadecimalString) {
-        this.hexadecimalString = hexadecimalString;
-    }
 
+    public void setHexadecimalString(String hexadecimalString) throws Exception {
+        this.hexadecimalString = hexadecimalString;
+        decimal = hexadecimalToDecimal(hexadecimalString);
+        octalString = decimalToOctal(decimal);
+        binaryString = decimalToBinary(decimal);
+    }
 
     /**
      * Converts a String representation of a binary number to an integer representation of a decimal number.
@@ -135,7 +140,28 @@ public class EquivalentNumbers implements NumberConverter{
 
     @Override
     public int hexadecimalToDecimal(String hexadecimal) {
-        return 0;
+        int decimalValue = 0;
+        // Converting hexadecimal string to uppercase to handle lowercase input
+        hexadecimal = hexadecimal.toUpperCase();
+
+        // Iterate through each character of the hexadecimal string
+        for (int i = 0; i < hexadecimal.length(); i++) {
+            char digit = hexadecimal.charAt(i);
+            // Convert hexadecimal digit to decimal value
+            int digitValue;
+            if (digit >= '0' && digit <= '9') {
+                digitValue = digit - '0';
+            } else if (digit >= 'A' && digit <= 'F') {
+                digitValue = digit - 'A' + 10;
+            } else {
+                // Invalid hexadecimal character
+                throw new IllegalArgumentException("Invalid hexadecimal character: " + digit);
+            }
+            // Update the decimal value with the converted digit
+            decimalValue = 16 * decimalValue + digitValue;
+        }
+
+        return decimalValue;
     }
 
     @Override
