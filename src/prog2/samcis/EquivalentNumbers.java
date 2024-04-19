@@ -135,7 +135,16 @@ public class EquivalentNumbers implements NumberConverter{
     public int octalToDecimal(String octal) {
         return 0;
     }
-
+    
+    /**
+     * Converts a hexadecimal string to its equivalent decimal representation.
+     * Each hexadecimal digit is converted to its decimal equivalent and then combined
+     * to produce the final decimal value.
+     *
+     * @param hexadecimal The hexadecimal string to convert to decimal.
+     * @return The decimal representation of the hexadecimal string.
+     */
+    
     @Override
     public int hexadecimalToDecimal(String hexadecimal) {
         int decimalValue = 0;
