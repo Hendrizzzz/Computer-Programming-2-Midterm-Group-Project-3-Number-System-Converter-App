@@ -6,9 +6,18 @@ public class EquivalentNumbers implements NumberConverter{
     String octalString;
     String hexadecimalString;
 
+
+
+
+    /**
+     * Gets the binary string representation of the number.
+     *
+     * @return the binary string representation
+     */
     public String getBinaryString() {
         return binaryString;
     }
+
 
     /**
      * sets the binaryString to the given parameter.
@@ -27,9 +36,17 @@ public class EquivalentNumbers implements NumberConverter{
 
 
 
+
+
+    /**
+     * Gets the octal string representation of the number.
+     *
+     * @return the octal string representation
+     */
     public String getOctalString() {
         return octalString;
     }
+
 
     /**
      * Sets the octal string representation and calculates the decimal, binary, and hexadecimal equivalents.
@@ -41,15 +58,24 @@ public class EquivalentNumbers implements NumberConverter{
      */
     public void setOctalString(String octalString) throws Exception {
         this.octalString = octalString;
-        decimal = Double.parseDouble(octalToDecimal(octalString));
+        decimal = octalToDecimal(octalString);
         binaryString = decimalToBinary(decimal);
         hexadecimalString = decimalToHexadecimal(decimal);
     }
 
 
+
+
+
+    /**
+     * Gets the decimal value represented by the object.
+     *
+     * @return the decimal value
+     */
     public double getDecimal() {
         return decimal;
     }
+
 
     /**
      * Sets the decimal number and updates binary, octal, and hexadecimal representations accordingly.
@@ -66,10 +92,15 @@ public class EquivalentNumbers implements NumberConverter{
 
 
 
-
+    /**
+     * Gets the hexadecimal string representation of the number.
+     *
+     * @return the hexadecimal string representation
+     */
     public String getHexadecimalString() {
         return hexadecimalString;
     }
+
 
     /**
      * Sets the hexadecimal string and calculates the decimal, octal, and binary representations.
@@ -85,6 +116,13 @@ public class EquivalentNumbers implements NumberConverter{
         octalString = decimalToOctal(decimal);
         binaryString = decimalToBinary(decimal);
     }
+
+
+
+
+
+
+
 
     /**
      * Converts a String representation of a binary number to an integer representation of a decimal number.
@@ -139,86 +177,331 @@ public class EquivalentNumbers implements NumberConverter{
         return result;
     }
 
-/**
- * Converts a string representing an octal number to its decimal equivalent.
- *
- * @param octal the string representation of the octal number to be converted
- * @return the decimal equivalent of the input octal number
- * @throws NumberFormatException if the input string is not a valid octal number
- * @throws Exception             if an error occurs during the conversion process
- * @author Paul Pajara
- */
-@Override
-public double octalToDecimal(String octal) throws NumberFormatException, Exception {
 
-    boolean isNegative = false;
 
-    if (octal.charAt(0) == '-') {
-        octal = octal.substring(1);
-        isNegative = true;
-    }
 
-    double octalNumber = Double.parseDouble(octal);
-    int integerPart = (int) octalNumber;
-    double fractionalPart = octalNumber - integerPart;
 
-    if (!isOctal(octal)) {
-        throw new Exception("Invalid Octal Number");
-    }
-
-    double decimalEquivalent = integerPart;
-
-    while (fractionalPart > 0) {
-        fractionalPart *= 8; // Multiply fractional part by 8
-        int digit = (int) fractionalPart; // Get integer part of the result
-        decimalEquivalent += digit / Math.pow(8, fractionalPart);
-        fractionalPart -= digit; // Remove the integer part from the fractional part
-    }
-
-    return isNegative ? -decimalEquivalent : decimalEquivalent;
-}
-
+    /**
+     * Converts an octal string to a decimal number.
+     *
+     * @param octal the octal string to convert
+     * @return the decimal representation of the octal string
+     * @throws NumberFormatException if the input string is not a valid octal number
+     * @author Pajara, Paul Jabez
+     */
     @Override
-    public int hexadecimalToDecimal(String hexadecimal) {
-        int decimalValue = 0;
-        // Converting hexadecimal string to uppercase to handle lowercase input
-        hexadecimal = hexadecimal.toUpperCase();
+    public double octalToDecimal(String octal) {
+        // Remove any leading whitespace
+        octal = octal.trim();
 
-        // Iterate through each character of the hexadecimal string
-        for (int i = 0; i < hexadecimal.length(); i++) {
-            char digit = hexadecimal.charAt(i);
-            // Convert hexadecimal digit to decimal value
-            int digitValue;
-            if (digit >= '0' && digit <= '9') {
-                digitValue = digit - '0';
-            } else if (digit >= 'A' && digit <= 'F') {
-                digitValue = digit - 'A' + 10;
-            } else {
-                // Invalid hexadecimal character
-                throw new IllegalArgumentException("Invalid hexadecimal character: " + digit);
-            }
-            // Update the decimal value with the converted digit
-            decimalValue = 16 * decimalValue + digitValue;
+        // Check for negative octal
+        boolean isNegative = false;
+        if (octal.startsWith("-")) {
+            isNegative = true;
+            octal = octal.substring(1); // Remove the negative sign
         }
 
-        return decimalValue;
+        // Check for fractional octal
+        String[] parts = octal.split("\\.");
+        String wholePart = parts[0];
+        String fractionalPart = "";
+        if (parts.length > 1) {
+            fractionalPart = parts[1];
+        }
+
+        // Convert whole part from octal to decimal
+        double decimal = 0;
+        for (int i = 0; i < wholePart.length(); i++) {
+            char digit = wholePart.charAt(i);
+            int value = Character.digit(digit, 8);
+            if (value == -1) {
+                throw new NumberFormatException("Invalid octal digit: " + digit);
+            }
+            decimal = decimal * 8 + value;
+        }
+
+        // Convert fractional part from octal to decimal
+        double fractionalDecimal = 0;
+        double fractionalBase = 1.0 / 8.0;
+        for (int i = 0; i < fractionalPart.length(); i++) {
+            char digit = fractionalPart.charAt(i);
+            int value = Character.digit(digit, 8);
+            if (value == -1) {
+                throw new NumberFormatException("Invalid octal digit: " + digit);
+            }
+            fractionalDecimal += value * fractionalBase;
+            fractionalBase /= 8.0;
+        }
+
+        decimal += fractionalDecimal;
+
+        // Apply negative sign if necessary
+        if (isNegative) {
+            decimal = -decimal;
+        }
+
+        return decimal;
     }
 
+
+
+
+
+
+
+
+    /**
+     * Converts a hexadecimal string to a decimal number.
+     *
+     * @param hexadecimal the hexadecimal string to convert
+     * @return the decimal representation of the hexadecimal string
+     * @throws NumberFormatException if the input string is not a valid hexadecimal number
+     * @author Sambot, Archilles Kyle
+     */
+    @Override
+    public double hexadecimalToDecimal(String hexadecimal) {
+        // Remove any leading whitespace and convert to uppercase for consistency
+        hexadecimal = hexadecimal.trim().toUpperCase();
+
+        // Check for negative hexadecimal
+        boolean isNegative = false;
+        if (hexadecimal.startsWith("-")) {
+            isNegative = true;
+            hexadecimal = hexadecimal.substring(1); // Remove the negative sign
+        }
+
+        // Check for fractional hexadecimal
+        String[] parts = hexadecimal.split("\\.");
+        String wholePart = parts[0];
+        String fractionalPart = "";
+        if (parts.length > 1) {
+            fractionalPart = parts[1];
+        }
+
+        // Convert whole part from hexadecimal to decimal
+        double decimal = 0;
+        for (int i = 0; i < wholePart.length(); i++) {
+            char digit = wholePart.charAt(i);
+            int value = Character.digit(digit, 16);
+            if (value == -1) {
+                throw new NumberFormatException("Invalid hexadecimal digit: " + digit);
+            }
+            decimal = decimal * 16 + value;
+        }
+
+        // Convert fractional part from hexadecimal to decimal
+        double fractionalDecimal = 0;
+        double fractionalBase = 1.0 / 16.0;
+        for (int i = 0; i < fractionalPart.length(); i++) {
+            char digit = fractionalPart.charAt(i);
+            int value = Character.digit(digit, 16);
+            if (value == -1) {
+                throw new NumberFormatException("Invalid hexadecimal digit: " + digit);
+            }
+            fractionalDecimal += value * fractionalBase;
+            fractionalBase /= 16.0;
+        }
+
+        decimal += fractionalDecimal;
+
+        // Apply negative sign if necessary
+        if (isNegative) {
+            decimal = -decimal;
+        }
+
+        return decimal;
+    }
+
+
+
+
+
+
+
+    /**
+     * Converts a decimal number to a binary string.
+     *
+     * @param decimal the decimal number to convert
+     * @return the binary representation of the decimal number
+     * @author Martin, Michael John
+     */
     @Override
     public String decimalToBinary(double decimal) {
-        return Integer.toBinaryString((int) decimal);
+        // Handle negative decimals
+        boolean isNegative = false;
+        if (decimal < 0) {
+            isNegative = true;
+            decimal = -(decimal); // Convert to positive for conversion
+        }
 
+        // Split decimal into whole and fractional parts
+        int wholePart = (int) decimal;
+        double fractionalPart = decimal - wholePart;
+
+        // Convert whole part to binary
+        StringBuilder binaryWhole = new StringBuilder();
+        if (wholePart == 0) {
+            binaryWhole.append(0);
+        } else {
+            while (wholePart > 0) {
+                binaryWhole.insert(0, wholePart % 2);
+                wholePart /= 2;
+            }
+        }
+
+        // Convert fractional part to binary
+        StringBuilder binaryFractional = new StringBuilder();
+        int MAX_PRECISION = 20; // Maximum precision for fractional part
+        while (fractionalPart > 0) {
+            // Set maximum precision to avoid infinite loop for repeating fractions
+            if (binaryFractional.length() >= MAX_PRECISION) {
+                break;
+            }
+            fractionalPart *= 2;
+            int bit = (int) fractionalPart;
+            binaryFractional.append(bit);
+            fractionalPart -= bit;
+        }
+
+        // Combine whole and fractional parts
+        StringBuilder binary = new StringBuilder();
+        binary.append(binaryWhole);
+        if (!binaryFractional.isEmpty()) {
+            binary.append('.');
+            binary.append(binaryFractional);
+        }
+
+        // Add negative sign if necessary
+        if (isNegative) {
+            binary.insert(0, '-');
+        }
+
+        return binary.toString();
     }
 
+
+
+
+
+
+
+
+    /**
+     * Converts a decimal number to an octal string.
+     *
+     * @param decimal the decimal number to convert
+     * @return the octal representation of the decimal number
+     * @author Martin, Michael
+     */
     @Override
     public String decimalToOctal(double decimal) {
-        return Integer.toOctalString((int) decimal);
+        // Handle negative decimals
+        boolean isNegative = false;
+        if (decimal < 0) {
+            isNegative = true;
+            decimal = -(decimal); // Convert to positive for conversion
+        }
+
+        // Split decimal into whole and fractional parts
+        int wholePart = (int) decimal;
+        double fractionalPart = decimal - wholePart;
+
+        // Convert whole part to octal
+        String octalWhole = Integer.toOctalString(wholePart);
+
+        // Convert fractional part to octal
+        StringBuilder octalFractional = new StringBuilder();
+        int MAX_PRECISION = 20; // Maximum precision for fractional part
+        for (int i = 0; i < MAX_PRECISION; i++) {
+            fractionalPart *= 8;
+            int digit = (int) fractionalPart;
+            octalFractional.append(digit);
+            fractionalPart -= digit;
+            if (fractionalPart == 0) {
+                break;
+            }
+        }
+
+        // Combine whole and fractional parts
+        StringBuilder octal = new StringBuilder();
+        octal.append(octalWhole);
+        if (!octalFractional.isEmpty()) {
+            octal.append('.');
+            octal.append(octalFractional);
+        }
+
+        // Add negative sign if necessary
+        if (isNegative) {
+            octal.insert(0, '-');
+        }
+
+        return octal.toString();
     }
 
+
+
+
+
+
+
+    /**
+     * Converts a decimal number to a hexadecimal string.
+     *
+     * @param decimal the decimal number to convert
+     * @return the hexadecimal representation of the decimal number
+     *
+     * @author Martin, Michael John
+     */
     @Override
     public String decimalToHexadecimal(double decimal) {
-        return Integer.toHexString((int) decimal).toUpperCase();
+        // Handle negative decimals
+        boolean isNegative = false;
+        if (decimal < 0) {
+            isNegative = true;
+            decimal = -(decimal); // Convert to positive for conversion
+        }
+
+        // Split decimal into whole and fractional parts
+        int wholePart = (int) decimal;
+        double fractionalPart = decimal - wholePart;
+
+        // Convert whole part to hexadecimal
+        String hexadecimalWhole = Integer.toHexString(wholePart).toUpperCase();
+
+        // Convert fractional part to hexadecimal
+        StringBuilder hexadecimalFractional = new StringBuilder();
+        int MAX_PRECISION = 20; // Maximum precision for fractional part
+        for (int i = 0; i < MAX_PRECISION; i++) {
+            fractionalPart *= 16;
+            int digit = (int) fractionalPart;
+            hexadecimalFractional.append(Integer.toHexString(digit).toUpperCase());
+            fractionalPart -= digit;
+            if (fractionalPart == 0) {
+                break;
+            }
+        }
+
+        // Combine whole and fractional parts
+        StringBuilder hexadecimal = new StringBuilder();
+        hexadecimal.append(hexadecimalWhole);
+        if (!hexadecimalFractional.isEmpty()) {
+            hexadecimal.append('.');
+            hexadecimal.append(hexadecimalFractional);
+        }
+
+        // Add negative sign if necessary
+        if (isNegative) {
+            hexadecimal.insert(0, '-');
+        }
+
+        return hexadecimal.toString();
     }
+
+
+
+
+
+
 
     /**
      * This method is to check the validity of the binary string.
@@ -247,20 +530,4 @@ public double octalToDecimal(String octal) throws NumberFormatException, Excepti
         return result;
     }
 
-     /**
-     * Checks if a given string represents a valid octal number.
-     *
-     * @param input the string to be checked for octal validity
-     * @return {@code true} if the input string represents a valid octal number, {@code false} otherwise
-     * @author Paul Pajara
-     */
-    public static boolean isOctal(String input) {
-        // Regular expression to match octal numbers (0 to 7)
-        String octalPattern = "[0-7]+";
-
-        // Check if the input string matches the octal pattern
-        return input.matches(octalPattern);
-    }
-
-}
-
+} // end of the class
