@@ -139,46 +139,44 @@ public class EquivalentNumbers implements NumberConverter{
         return result;
     }
 
-    /**
-     * Converts a string representing an octal number to its decimal equivalent.
-     *
-     * @param octal the string representation of the octal number to be converted
-     * @return a string representing the decimal equivalent of the input octal number
-     * @author Paul Pajara
-     */
-    @Override
-    public String octalToDecimal(String octal) throws Exception {
+/**
+ * Converts a string representing an octal number to its decimal equivalent.
+ *
+ * @param octal the string representation of the octal number to be converted
+ * @return the decimal equivalent of the input octal number
+ * @throws NumberFormatException if the input string is not a valid octal number
+ * @throws Exception             if an error occurs during the conversion process
+ * @author Paul Pajara
+ */
+@Override
+public double octalToDecimal(String octal) throws NumberFormatException, Exception {
 
-        boolean isNegative = false;
+    boolean isNegative = false;
 
-        if (octal.charAt(0) == '-') {
-            octal = octal.substring(1);
-            isNegative = true;
-        }
-
-        double octalNumber = Double.parseDouble(octal);
-        int integerPart = (int) octalNumber;
-        double fractionalPart = octalNumber - integerPart;
-        String integerOctal = Integer.toOctalString(integerPart);
-
-        if (!isOctal(octal)) {
-            throw new Exception("Invalid Octal Number");
-        }
-
-        StringBuilder fractionalOctal = new StringBuilder();
-        while (fractionalPart > 0) {
-            fractionalPart *= 8; // Multiply fractional part by 8
-            int digit = (int) fractionalPart; // Get integer part of the result
-            fractionalOctal.append(digit);
-            fractionalPart -= digit; // Remove the integer part from the fractional part
-        }
-
-        if (isNegative) {
-            return "-" + integerOctal + "." + fractionalOctal;
-        } else {
-            return integerOctal + "." + fractionalOctal;
-        }
+    if (octal.charAt(0) == '-') {
+        octal = octal.substring(1);
+        isNegative = true;
     }
+
+    double octalNumber = Double.parseDouble(octal);
+    int integerPart = (int) octalNumber;
+    double fractionalPart = octalNumber - integerPart;
+
+    if (!isOctal(octal)) {
+        throw new Exception("Invalid Octal Number");
+    }
+
+    double decimalEquivalent = integerPart;
+
+    while (fractionalPart > 0) {
+        fractionalPart *= 8; // Multiply fractional part by 8
+        int digit = (int) fractionalPart; // Get integer part of the result
+        decimalEquivalent += digit / Math.pow(8, fractionalPart);
+        fractionalPart -= digit; // Remove the integer part from the fractional part
+    }
+
+    return isNegative ? -decimalEquivalent : decimalEquivalent;
+}
 
     @Override
     public int hexadecimalToDecimal(String hexadecimal) {
