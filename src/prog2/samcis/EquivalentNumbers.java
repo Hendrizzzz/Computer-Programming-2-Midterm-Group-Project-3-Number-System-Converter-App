@@ -32,12 +32,18 @@ public class EquivalentNumbers implements NumberConverter{
     }
 
     /**
-     * One will do this
-     * @author...
-     * @param octalString
+     * Sets the octal string representation and calculates the decimal, binary, and hexadecimal equivalents.
+     *
+     * @param octalString the string representing the octal number to be set
+     * @throws NumberFormatException if the input string is not a valid octal number
+     * @throws Exception             if an error occurs during the conversion process
+     * @author Paul Pajara
      */
-    public void setOctalString(String octalString) {
+    public void setOctalString(String octalString) throws Exception {
         this.octalString = octalString;
+        decimal = Double.parseDouble(octalToDecimal(octalString));
+        binaryString = decimalToBinary(decimal);
+        hexadecimalString = decimalToHexadecimal(decimal);
     }
 
 
@@ -128,9 +134,45 @@ public class EquivalentNumbers implements NumberConverter{
         return result;
     }
 
+    /**
+     * Converts a string representing an octal number to its decimal equivalent.
+     *
+     * @param octal the string representation of the octal number to be converted
+     * @return a string representing the decimal equivalent of the input octal number
+     * @author Paul Pajara
+     */
     @Override
-    public int octalToDecimal(String octal) {
-        return 0;
+    public String octalToDecimal(String octal) throws Exception {
+
+        boolean isNegative = false;
+
+        if (octal.charAt(0) == '-') {
+            octal = octal.substring(1);
+            isNegative = true;
+        }
+
+        double octalNumber = Double.parseDouble(octal);
+        int integerPart = (int) octalNumber;
+        double fractionalPart = octalNumber - integerPart;
+        String integerOctal = Integer.toOctalString(integerPart);
+
+        if (!isOctal(octal)) {
+            throw new Exception("Invalid Octal Number");
+        }
+
+        StringBuilder fractionalOctal = new StringBuilder();
+        while (fractionalPart > 0) {
+            fractionalPart *= 8; // Multiply fractional part by 8
+            int digit = (int) fractionalPart; // Get integer part of the result
+            fractionalOctal.append(digit);
+            fractionalPart -= digit; // Remove the integer part from the fractional part
+        }
+
+        if (isNegative) {
+            return "-" + integerOctal + "." + fractionalOctal;
+        } else {
+            return integerOctal + "." + fractionalOctal;
+        }
     }
 
     @Override
@@ -179,6 +221,21 @@ public class EquivalentNumbers implements NumberConverter{
             }
         }
         return result;
+    }
+
+     /**
+     * Checks if a given string represents a valid octal number.
+     *
+     * @param input the string to be checked for octal validity
+     * @return {@code true} if the input string represents a valid octal number, {@code false} otherwise
+     * @author Paul Pajara
+     */
+    public static boolean isOctal(String input) {
+        // Regular expression to match octal numbers (0 to 7)
+        String octalPattern = "[0-7]+";
+
+        // Check if the input string matches the octal pattern
+        return input.matches(octalPattern);
     }
 
 }
