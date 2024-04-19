@@ -6,8 +6,6 @@ public class EquivalentNumbers implements NumberConverter{
     String octalString;
     String hexadecimalString;
 
-
-
     public String getBinaryString() {
         return binaryString;
     }
@@ -48,14 +46,18 @@ public class EquivalentNumbers implements NumberConverter{
     }
 
     /**
-     * One will do this
-     * @author....
+     * Sets the decimal number and updates binary, octal, and hexadecimal representations accordingly.
+     * @author Martin, Michael John
      *
-     * @param decimal
+     * @param decimal - Decimal number to set.
      */
     public void setDecimal(double decimal) {
         this.decimal = decimal;
+        binaryString = decimalToBinary(decimal);
+        octalString = decimalToOctal(decimal);
+        hexadecimalString = decimalToHexadecimal(decimal);
     }
+
 
 
 
@@ -138,17 +140,18 @@ public class EquivalentNumbers implements NumberConverter{
 
     @Override
     public String decimalToBinary(double decimal) {
-        return null;
+        return Integer.toBinaryString((int) decimal);
+
     }
 
     @Override
     public String decimalToOctal(double decimal) {
-        return null;
+        return Integer.toOctalString((int) decimal);
     }
 
     @Override
     public String decimalToHexadecimal(double decimal) {
-        return null;
+        return Integer.toHexString((int) decimal).toUpperCase();
     }
 
     /**
@@ -177,4 +180,6 @@ public class EquivalentNumbers implements NumberConverter{
         }
         return result;
     }
+
 }
+
