@@ -36,10 +36,10 @@ java prog2.samcis.NumberConverterBoard
 5. The number system converter application GUI will appear, allowing you to convert numbers between different number systems.
 
 ## Contributors
+- **Jim Hendrix Bag-eo**
 - **Edison Malasan**
 - **Oliver Yu**
 - **Paul Pajara**
-- **Martin Michael**
 - **Archilles Kyle Sambot**
-- **Jim Hendrix Bag-eo**
+- **Martin Michael**
 
